@@ -1,0 +1,31 @@
+name: Radar Fetch
+
+on:
+  schedule:
+    # UTC 01:20 = 北京时间 09:20（对齐原日报触发时间）
+    - cron: '20 1 * * *'
+  workflow_dispatch: {}   # 支持手动触发
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install deps
+        run: pip install feedparser pyyaml
+
+      - name: Fetch feeds
+        run: python scripts/fetch.py
+
+      - name: Upload raw results
+        uses: actions/upload-artifact@v4
+        with:
+          name: radar-raw
+          path: output/*.json

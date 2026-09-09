@@ -1,0 +1,45 @@
+# AI PM 情报雷达 · RSS 源清单
+# 字段：name=显示名, url=RSS地址, category=分类（用于后续黑名单/打分）
+# 说明：
+#   - 已砍掉 arXiv 三个分类（学术论文，用户明确不需要）
+#   - rsshub:// 协议源已转为 https（rsshub.app 官方公共实例，海外可达）
+#   - 排除带身份 token 的第三方桥接（wechatrss.waytomaster 等），避免泄露
+
+sources:
+  # ── 中文行业媒体 ──
+  - { name: "量子位", url: "https://www.qbitai.com/feed", category: "中文媒体" }
+  - { name: "人人都是产品经理", url: "https://rsseverything.com/zh/feed/596.xml", category: "中文媒体" }
+  - { name: "36氪热榜", url: "https://rsshub.app/36kr/hot-list", category: "中文媒体" }
+  - { name: "独立开发者 ezindie", url: "https://www.ezindie.com/feed/rss.xml", category: "中文媒体" }
+  - { name: "微信公众号(字节跳动)", url: "https://wechat2rss.bestblogs.dev/feed/00306b171f754d463b28cf83f3ba086ad009b430.xml", category: "中文媒体" }
+  - { name: "微信公众号(2)", url: "https://wechat2rss.bestblogs.dev/feed/d3a9e4d6f125cc98d1691dbc30cd97fec7ae2d03.xml", category: "中文媒体" }
+  - { name: "微信公众号(3)", url: "https://wechat2rss.bestblogs.dev/feed/8d97af31b0de9e48da74558af128a4673d78c9a3.xml", category: "中文媒体" }
+
+  # ── 英文科技媒体 ──
+  - { name: "TechCrunch", url: "https://techcrunch.com/feed/", category: "英文媒体" }
+  - { name: "VentureBeat AI", url: "https://venturebeat.com/category/ai/feed", category: "英文媒体" }
+  - { name: "MIT Technology Review", url: "https://www.technologyreview.com/feed/", category: "英文媒体" }
+  - { name: "Wired AI", url: "https://www.wired.com/feed/tag/ai/latest/rss", category: "英文媒体" }
+
+  # ── 官方博客 ──
+  - { name: "OpenAI News", url: "https://openai.com/news/rss.xml", category: "官方博客" }
+  - { name: "Anthropic News", url: "https://rsshub.bestblogs.dev/anthropic/news", category: "官方博客" }
+  - { name: "Anthropic Engineering", url: "https://rsshub.bestblogs.dev/anthropic/engineering", category: "官方博客" }
+  - { name: "DeepMind Blog", url: "https://rsshub.bestblogs.dev/deepmind/blog", category: "官方博客" }
+  - { name: "HuggingFace Blog", url: "https://huggingface.co/blog/feed.xml", category: "官方博客" }
+  - { name: "Stripe Blog", url: "https://stripe.com/blog/feed.rss", category: "官方博客" }
+  - { name: "Sequoia Capital", url: "https://framerusercontent.com/assets/n98zoxZx1qHxL4IVIZR0L1oWUJU.xml", category: "官方博客" }
+  - { name: "GitHub Blog", url: "https://github.blog/feed/", category: "官方博客" }
+
+  # ── 社区与榜单 ──
+  - { name: "Hacker News", url: "https://news.ycombinator.com/rss", category: "社区榜单" }
+  - { name: "Product Hunt", url: "https://ph.buzzing.cc/feed.xml", category: "社区榜单" }
+  - { name: "GitHub Trending", url: "https://rsshub.app/github/trending/daily/any", category: "社区榜单" }
+
+  # ── 人物观点 ──
+  - { name: "Lenny's Newsletter", url: "https://www.lennysnewsletter.com/feed", category: "人物观点" }
+  - { name: "a16z Show (播客)", url: "https://feeds.simplecast.com/JGE3yC0V", category: "人物观点" }
+  - { name: "Karpathy (Twitter)", url: "https://rsshub.app/twitter/user/karpathy", category: "人物观点" }
+  - { name: "elvis/omarsar0 (Twitter)", url: "https://rsshub.app/twitter/user/omarsar0", category: "人物观点" }
+  - { name: "Karpathy (YouTube)", url: "https://rsshub.app/youtube/user/@AndrejKarpathy", category: "人物观点" }
+  - { name: "Y Combinator (YouTube)", url: "https://rsshub.app/youtube/user/@ycombinator", category: "人物观点" }

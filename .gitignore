@@ -1,0 +1,5 @@
+# 抓取结果（每天生成，不进仓库）
+output/
+*.pyc
+__pycache__/
+.venv/

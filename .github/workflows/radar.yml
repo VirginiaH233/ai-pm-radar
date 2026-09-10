@@ -9,6 +9,8 @@ on:
 jobs:
   daily:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write   # 允许 commit 运行日志回仓库
     steps:
       - name: Checkout
         uses: actions/checkout@v4

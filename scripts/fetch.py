@@ -67,15 +67,24 @@ def simple_yaml(text):
 
 def _parse_time(entry):
     """从 entry 提取发布时间（返回 timezone-aware datetime 或 None）"""
-    for key in ("published", "updated", "created"):
-        raw = entry.get(key) or entry.get(key + "_parsed")
+    # 优先用 feedparser 已解析的 *_parsed（time.struct_time）
+    for key in ("published_parsed", "updated_parsed", "created_parsed"):
+        raw = entry.get(key)
         if raw:
-            if isinstance(raw, str):
-                try:
-                    return feedparser._parse_date(raw)
-                except Exception:
-                    continue
-            return raw
+            try:
+                return datetime(*raw[:6], tzinfo=timezone.utc)
+            except Exception:
+                continue
+    # 兜底：原始字符串（feedparser._parse_date 返回 struct_time）
+    for key in ("published", "updated", "created"):
+        raw = entry.get(key)
+        if isinstance(raw, str):
+            try:
+                st = feedparser._parse_date(raw)
+                if st:
+                    return datetime(*st[:6], tzinfo=timezone.utc)
+            except Exception:
+                continue
     return None
 
 

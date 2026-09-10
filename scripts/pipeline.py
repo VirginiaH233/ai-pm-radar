@@ -298,17 +298,29 @@ def push_feishu(md_text, date):
     webhook = get_env("FEISHU_WEBHOOK")
     if not webhook:
         log("⚠️ 未设 FEISHU_WEBHOOK，跳过飞书推送")
-        return
+        return None  # None = 跳过
     secret = get_env("FEISHU_SECRET")
     payload = build_card(md_text, date)
     try:
         result = feishu_send(payload, webhook, secret)
         if '"code":0' in result or '"StatusCode":0' in result:
             log("✅ 飞书推送成功")
+            return True
         else:
             log(f"❌ 飞书推送失败: {result[:100]}")
+            return False
     except Exception as e:
         log(f"❌ 飞书推送异常: {e}")
+        return False
+
+
+def write_run_log(stats):
+    """追加一条运行日志到 logs/runs.jsonl（操作日志/可观测性）"""
+    log_dir = os.path.join(BASE, "logs")
+    os.makedirs(log_dir, exist_ok=True)
+    log_path = os.path.join(log_dir, "runs.jsonl")
+    with open(log_path, "a", encoding="utf-8") as f:
+        f.write(json.dumps(stats, ensure_ascii=False) + "\n")
 
 # ============ 主流程 ============
 
@@ -416,9 +428,27 @@ def main():
     log(f"✅ 日报已保存: {out_path}")
 
     # 推飞书
-    push_feishu(daily_md, DATE)
+    pushed = push_feishu(daily_md, DATE)
 
-    log(f"🎉 全部完成，总耗时 {time.time()-T0:.0f} 秒")
+    duration = round(time.time() - T0, 1)
+    log(f"🎉 全部完成，总耗时 {duration} 秒")
+
+    # 写操作日志（可观测性，累积历史）
+    write_run_log({
+        "ts": datetime.now(TZ).isoformat(),
+        "date": DATE,
+        "sources_ok": len(by_source),
+        "sources_total": len(sources),
+        "entries_fetched": len(all_entries),
+        "after_date_filter": len(day_entries),
+        "after_blacklist": len(filtered),
+        "scored_input": len(scored_input),
+        "top_n": len(top_items),
+        "analyzed": len(content_results),
+        "fetch_failed": failed_cnt,
+        "duration_s": duration,
+        "feishu_pushed": pushed,
+    })
 
 
 if __name__ == "__main__":

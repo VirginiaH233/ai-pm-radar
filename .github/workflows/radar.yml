@@ -28,6 +28,14 @@ jobs:
           FEISHU_SECRET: ${{ secrets.FEISHU_SECRET }}
         run: python scripts/pipeline.py
 
+      - name: Commit run log
+        run: |
+          git config user.name "radar-bot"
+          git config user.email "radar-bot@users.noreply.github.com"
+          git add logs/runs.jsonl
+          git commit -m "chore: 运行日志 $(date -u +%Y-%m-%d)" || echo "无新日志"
+          git push || echo "push 失败（无权限或非 fast-forward）"
+
       - name: Upload daily report
         uses: actions/upload-artifact@v4
         with:
